@@ -4,4 +4,6 @@
 
 จัดทำโดย ดร.ภก.วิรุณ เวชศิริ (อ.หมี) สำหรับงาน MPAT Annual Meeting 2026
 
+มีสถานการณ์สมมติของยา Glucoxa (case.html) ให้ใช้เป็นข้อมูลตัวอย่างในทุกการ์ด
+
 เว็บไซต์แบบ static ไม่มีขั้นตอน build เปิดใช้ผ่าน GitHub Pages (Settings → Pages → Branch: main, / root)
