@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=2015">
+<link rel="stylesheet" href="assets/style.css?v=2030">
 <script>try{var t=localStorage.getItem('mkp-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
@@ -33,6 +33,7 @@
   <div class="gates">
     <div class="gate"><b>ข้อมูลทั้งหมดแต่งขึ้น</b><span>ชื่อยา บริษัท การศึกษา ประกาศ และตัวเลข ไม่ใช่ข้อมูลจริง ห้ามนำไปใช้อ้างอิง</span></div>
     <div class="gate"><b>ตั้งใจใส่จุดผิดไว้</b><span>ร่างสื่อ โน้ตการเยี่ยม และไฟล์ยอดขาย มีปัญหาซ่อนอยู่ ดูว่า AI จับได้ครบไหม</span></div>
+    <div class="gate"><b>มีตัวอย่างแอปที่ควรได้</b><span><a href="examples/dashboard.html">Dashboard ยอดขาย</a> · <a href="examples/thfda.html">ค้นทะเบียนยา</a> · <a href="examples/ctgov.html">ติดตามงานวิจัยคู่แข่ง</a> ไว้เทียบกับแอปที่ผู้เรียนสร้าง</span></div>
     <div class="gate"><b>ใช้ทีละส่วน</b><span>แต่ละกล่องบอกว่าใช้กับการ์ดไหน หรือกด “ใส่ข้อมูลตัวอย่าง” ในการ์ดก็ได้</span></div>
   </div>
 </section>
@@ -44,14 +45,15 @@
 <p class="credit">ดร.ภก.วิรุณ เวชศิริ (อ.หมี) · คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์ · สถานการณ์สมมติเพื่อการเรียนรู้</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="assets/common.js?v=2015"></script>
-<script src="assets/casedata.js?v=2015"></script>
+<script src="assets/common.js?v=2030"></script>
+<script src="assets/casedata.js?v=2030"></script>
 <script>
-const ORDER=['brief','product','claims','market','comp','policy','draft','precall','callnote','adboard','abstract','ptc','tor','launch','kpi','global','dict','sales','key'];
-$('#list').innerHTML=ORDER.map((k,i)=>{const c=CASE[k];return '<details class="uc" id="'+k+'"'+(i===0?' open':'')+'><summary><span class="num">'+(i+1)+'</span><span><h3>'+esc(c.t)+'</h3><p class="sub">'+esc(c.use)+'</p></span></summary><div class="ucb"><pre class="pv" tabindex="0">'+esc(c.x)+'</pre><div class="actions"><button class="copy" type="button" data-k="'+k+'">คัดลอก</button>'+(k==='sales'?'<button class="copy alt" type="button" id="dl">ดาวน์โหลด glucoxa_sales.csv</button>':'')+'</div></div></details>'}).join('');
+const DL={sales:'glucoxa_sales.csv',fda:'thfda_registrations_sample.csv'};
+const ORDER=['brief','product','claims','market','comp','policy','swot','draft','precall','callnote','adboard','abstract','ptc','tor','launch','kpi','global','dict','sales','fda','key'];
+$('#list').innerHTML=ORDER.map((k,i)=>{const c=CASE[k];return '<details class="uc" id="'+k+'"'+(i===0?' open':'')+'><summary><span class="num">'+(i+1)+'</span><span><h3>'+esc(c.t)+'</h3><p class="sub">'+esc(c.use)+'</p></span></summary><div class="ucb"><pre class="pv" tabindex="0">'+esc(c.x)+'</pre><div class="actions"><button class="copy" type="button" data-k="'+k+'">คัดลอก</button>'+(DL[k]?'<button class="copy alt" type="button" data-dl="'+k+'">ดาวน์โหลด '+DL[k]+'</button>':'')+'</div></div></details>'}).join('');
 $('#list').addEventListener('click',e=>{const t=e.target;
  if(t.dataset.k)copyText(CASE[t.dataset.k].x);
- else if(t.id==='dl'){const b=new Blob(['﻿'+CASE.sales.x],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='glucoxa_sales.csv';document.body.appendChild(a);a.click();a.remove();toast('ดาวน์โหลดแล้ว')}});
+ else if(t.id==='dl'){const b=new Blob(['﻿'+CASE.sales.x],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=DL[k];document.body.appendChild(a);a.click();a.remove();toast('ดาวน์โหลดแล้ว')}});
 if(location.hash){const d=document.getElementById(location.hash.slice(1));if(d){d.open=true;d.scrollIntoView()}}
 initTheme();
 </script>

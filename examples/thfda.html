@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ตัวอย่างผลลัพธ์ · ค้นทะเบียนยา (ข้อมูลสมมติ)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=2030">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:12px 0}.bar label{display:grid;gap:4px;font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem;background:var(--card)}th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{cursor:pointer;background:var(--soft);position:sticky;top:0}
+.tw{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:14px}
+.note{font-size:.85rem;color:var(--muted)}.chart{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px}
+.pill{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.78rem;background:var(--soft)}.pill.w{background:var(--warn-bg);color:var(--warn)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><nav class="nav"><a href="../index.html">คลัง Prompt</a><a href="../case.html">สถานการณ์ตัวอย่าง</a></nav></div>
+<section class="section">
+<div class="eyebrow">ตัวอย่างผลลัพธ์จากการ์ดแอปค้นทะเบียนยา · ข้อมูลสมมติ</div>
+<h1 style="margin:.2em 0">ค้นทะเบียนตำรับยา</h1>
+<p class="note">ข้อมูลเริ่มต้นเป็นชุดสมมติในรูปแบบเดียวกับข้อมูลเปิดของ อย. เลือกไฟล์ CSV ที่ดาวน์โหลดจาก catalog.fda.moph.go.th เพื่อแทนที่ได้ ข้อมูลอาจไม่เป็นปัจจุบัน ให้ตรวจกับระบบค้นหาของ อย. ก่อนใช้อ้างอิง</p>
+<div class="bar">
+ <label>ค้นหา<input class="in" id="q" placeholder="ชื่อการค้า ชื่อสามัญ หรือเลขทะเบียน"></label>
+ <label>ชื่อสามัญ<select id="fg"></select></label>
+ <label>ผู้รับอนุญาต<select id="fl"></select></label>
+ <label>สถานะ<select id="fs"></select></label>
+ <label>อนุมัติตั้งแต่<input class="in" type="date" id="d1"></label>
+ <label>ไฟล์ CSV<input type="file" id="file" accept=".csv"></label>
+ <button class="copy alt" type="button" id="exp">ส่งออก CSV</button>
+</div>
+<p id="count" class="note"></p>
+<div class="tw"><table><thead><tr id="hd"></tr></thead><tbody id="tb"></tbody></table></div>
+<div class="chart"><h3 style="margin:0 0 8px;font-size:1rem">จำนวนทะเบียนตามผู้รับอนุญาต (ตามตัวกรอง)</h3><canvas id="c"></canvas></div>
+<p class="note" style="margin-top:12px">ข้อมูลสมมติเพื่อการฝึก · ดร.ภก.วิรุณ เวชศิริ</p>
+</section>
+</div>
+<script src="../assets/casedata.js?v=2030"></script>
+<script>
+const $=s=>document.querySelector(s);let rows=[],cols=[],sortK='approval_date',asc=false,chart;
+const TH={reg_no:'เลขทะเบียน',trade_name:'ชื่อการค้า',generic_name:'ชื่อสามัญ',strength:'ความแรง',dosage_form:'รูปแบบยา',licensee:'ผู้รับอนุญาต',approval_date:'วันที่อนุมัติ',status:'สถานะ'};
+function parseCSV(t){const out=[];let row=[],cur='',q=false;t=t.replace(/^﻿/,'');for(let i=0;i<t.length;i++){const ch=t[i];if(q){if(ch=='"'){if(t[i+1]=='"'){cur+='"';i++}else q=false}else cur+=ch}else if(ch=='"')q=true;else if(ch==','){row.push(cur);cur=''}else if(ch=='\n'||ch=='\r'){if(ch=='\r'&&t[i+1]=='\n')i++;row.push(cur);out.push(row);row=[];cur=''}else cur+=ch}if(cur||row.length){row.push(cur);out.push(row)}
+ const h=out.shift().map(x=>x.trim());return{h,r:out.filter(r=>r.join('').trim()).map(r=>Object.fromEntries(h.map((k,i)=>[k,(r[i]||'').trim()])))}}
+function load(t){const p=parseCSV(t);cols=p.h;rows=p.r;
+ const opt=(id,k)=>{$('#'+id).innerHTML='<option value="">ทั้งหมด</option>'+[...new Set(rows.map(r=>r[k]).filter(Boolean))].sort().map(v=>'<option>'+v+'</option>').join('')};
+ opt('fg','generic_name');opt('fl','licensee');opt('fs','status');
+ $('#hd').innerHTML=cols.map(k=>'<th data-k="'+k+'">'+(TH[k]||k)+'</th>').join('');draw()}
+const norm=s=>(s||'').toLowerCase().replace(/[\s\-]/g,'');
+function filtered(){const q=norm($('#q').value),g=$('#fg').value,l=$('#fl').value,s=$('#fs').value,d=$('#d1').value;
+ return rows.filter(r=>(!q||cols.some(k=>norm(r[k]).includes(q)))&&(!g||r.generic_name===g)&&(!l||r.licensee===l)&&(!s||r.status===s)&&(!d||(r.approval_date||'')>=d)).sort((a,b)=>(a[sortK]||'').localeCompare(b[sortK]||'','th')*(asc?1:-1))}
+function draw(){const D=filtered();$('#count').textContent='พบ '+D.length+' รายการ จากทั้งหมด '+rows.length+' รายการ';
+ $('#tb').innerHTML=D.map(r=>'<tr>'+cols.map(k=>'<td>'+(k==='status'?'<span class="pill'+(r[k]!=='คงอยู่'?' w':'')+'">'+r[k]+'</span>':r[k])+'</td>').join('')+'</tr>').join('');
+ const c={};D.forEach(r=>c[r.licensee]=(c[r.licensee]||0)+1);if(chart)chart.destroy();
+ chart=new Chart($('#c'),{type:'bar',data:{labels:Object.keys(c),datasets:[{data:Object.values(c),backgroundColor:getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()}]},options:{indexAxis:'y',plugins:{legend:{display:false}}}})}
+['q','fg','fl','fs','d1'].forEach(id=>$('#'+id).addEventListener('input',draw));
+$('#hd').onclick=e=>{const k=e.target.dataset.k;if(!k)return;asc=sortK===k?!asc:true;sortK=k;draw()};
+$('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{let t=r.result;if(!/[ก-๙]/.test(t)){const r2=new FileReader();r2.onload=()=>load(r2.result);r2.readAsText(f,'windows-874');return}load(t)};r.readAsText(f,'utf-8')};
+$('#exp').onclick=()=>{const D=filtered();const csv=[cols.join(',')].concat(D.map(r=>cols.map(k=>/[,"]/.test(r[k])?'"'+r[k].replace(/"/g,'""')+'"':r[k]).join(','))).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv'}));a.download='thfda_filtered.csv';a.click()};
+load(CASE.fda.x);
+</script>
+</body>
+</html>

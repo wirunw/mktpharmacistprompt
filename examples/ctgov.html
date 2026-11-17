@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ตัวอย่างผลลัพธ์ · ติดตามงานวิจัยจาก ClinicalTrials.gov</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=2030">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:12px 0}.bar label{display:grid;gap:4px;font-size:.85rem}
+table{width:100%;border-collapse:collapse;font-size:.86rem;background:var(--card)}th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{background:var(--soft);position:sticky;top:0}
+.tw{max-height:480px;overflow:auto;border:1px solid var(--line);border-radius:14px}.note{font-size:.85rem;color:var(--muted)}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-top:12px}
+.warn{background:var(--warn-bg);color:var(--warn);border-radius:12px;padding:10px 12px;font-size:.88rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><nav class="nav"><a href="../index.html">คลัง Prompt</a><a href="../case.html">สถานการณ์ตัวอย่าง</a></nav></div>
+<section class="section">
+<div class="eyebrow">ตัวอย่างผลลัพธ์จากการ์ด ClinicalTrials.gov · ข้อมูลจริงจาก API</div>
+<h1 style="margin:.2em 0">ติดตามงานวิจัยของคู่แข่ง</h1>
+<p class="warn">การลงทะเบียนการศึกษาไม่ใช่ผลการศึกษา ใช้ภายในเพื่อวางแผนเท่านั้น ไม่ใช้ในสื่อส่งเสริมการขาย</p>
+<div class="bar">
+ <label>คำค้น<input class="in" id="q" value="empagliflozin"></label>
+ <label>สถานะ<select id="st"><option value="RECRUITING">กำลังรับอาสาสมัคร</option><option value="">ทุกสถานะ</option><option value="ACTIVE_NOT_RECRUITING">ดำเนินอยู่ ไม่รับเพิ่ม</option><option value="COMPLETED">เสร็จสิ้น</option></select></label>
+ <label>Phase<select id="ph"><option value="">ทุก phase</option></select></label>
+ <button class="copy" type="button" id="go">ค้นหา</button>
+ <button class="copy alt" type="button" id="exp">ส่งออก CSV</button>
+</div>
+<p id="info" class="note"></p>
+<div class="tw"><table><thead><tr><th>NCT ID</th><th>ชื่อการศึกษา</th><th>Phase</th><th>สถานะ</th><th>ผู้สนับสนุน</th><th>ประเทศ</th><th>คาดว่าจะเสร็จ</th></tr></thead><tbody id="tb"></tbody></table></div>
+<div class="chart"><h3 style="margin:0 0 8px;font-size:1rem">จำนวนการศึกษาตาม phase</h3><canvas id="c"></canvas></div>
+<p class="note" style="margin-top:12px">ที่มา: ClinicalTrials.gov API v2 · ดร.ภก.วิรุณ เวชศิริ</p>
+</section>
+</div>
+<script>
+const $=s=>document.querySelector(s);let all=[],chart;
+const PH={EARLY_PHASE1:'Early 1',PHASE1:'1',PHASE2:'2',PHASE3:'3',PHASE4:'4',NA:'ไม่ระบุ'};
+async function search(){const q=$('#q').value.trim();if(!q)return;$('#info').textContent='กำลังค้นหา...';all=[];
+ let token='',page=0;
+ try{do{const u=new URL('https://clinicaltrials.gov/api/v2/studies');u.searchParams.set('query.term',q);u.searchParams.set('pageSize','100');if($('#st').value)u.searchParams.set('filter.overallStatus',$('#st').value);if(token)u.searchParams.set('pageToken',token);
+  const r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);const d=await r.json();
+  (d.studies||[]).forEach(s=>{const p=s.protocolSection||{};all.push({id:p.identificationModule?.nctId||'',title:p.identificationModule?.briefTitle||'',phase:(p.designModule?.phases||['NA']).map(x=>PH[x]||x).join('/'),status:p.statusModule?.overallStatus||'',sponsor:p.sponsorCollaboratorsModule?.leadSponsor?.name||'',country:[...new Set((p.contactsLocationsModule?.locations||[]).map(l=>l.country))].slice(0,4).join(', '),end:p.statusModule?.primaryCompletionDateStruct?.date||''})});
+  token=d.nextPageToken;page++}while(token&&page<5);
+  const phs=[...new Set(all.map(x=>x.phase))].sort();$('#ph').innerHTML='<option value="">ทุก phase</option>'+phs.map(p=>'<option>'+p+'</option>').join('');
+  $('#info').textContent='พบ '+all.length+' การศึกษา'+(token?' (แสดง 500 รายการแรก)':'')+' · ดึงข้อมูลเมื่อ '+new Date().toLocaleString('th-TH');draw()}
+ catch(e){$('#info').textContent='เรียกข้อมูลไม่สำเร็จ ('+e.message+') ลองใหม่อีกครั้ง หรือตรวจการเชื่อมต่ออินเทอร์เน็ต'}}
+function rowsF(){const p=$('#ph').value;return all.filter(x=>!p||x.phase===p)}
+function draw(){const D=rowsF();
+ $('#tb').innerHTML=D.map(x=>'<tr><td><a href="https://clinicaltrials.gov/study/'+x.id+'" target="_blank" rel="noopener">'+x.id+'</a></td><td>'+x.title+'</td><td>'+x.phase+'</td><td>'+x.status+'</td><td>'+x.sponsor+'</td><td>'+x.country+'</td><td>'+x.end+'</td></tr>').join('');
+ const c={};all.forEach(x=>c[x.phase]=(c[x.phase]||0)+1);if(chart)chart.destroy();
+ chart=new Chart($('#c'),{type:'bar',data:{labels:Object.keys(c),datasets:[{data:Object.values(c),backgroundColor:getComputedStyle(document.documentElement).getPropertyValue('--navy').trim()}]},options:{plugins:{legend:{display:false}}}})}
+$('#go').onclick=search;$('#ph').onchange=draw;$('#q').addEventListener('keydown',e=>{if(e.key==='Enter')search()});
+$('#exp').onclick=()=>{const k=['id','title','phase','status','sponsor','country','end'];const esc=v=>/[,"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;const csv=[k.join(',')].concat(rowsF().map(x=>k.map(i=>esc(x[i])).join(','))).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv'}));a.download='ctgov_'+$('#q').value+'.csv';a.click()};
+search();
+</script>
+</body>
+</html>

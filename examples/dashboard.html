@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ตัวอย่างผลลัพธ์ · Dashboard ยอดขาย Glucoxa (ข้อมูลสมมติ)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/style.css?v=2030">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
+.kpi b{display:block;font-family:var(--display);font-size:1.6rem;color:var(--navy)}
+.kpi span{font-size:.85rem;color:var(--muted)}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:12px}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px}
+.chart h3{margin:0 0 8px;font-size:1rem}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:12px 0}
+.bar label{display:grid;gap:4px;font-size:.85rem}
+.note{font-size:.85rem;color:var(--muted)}
+ul.flags li{margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><nav class="nav"><a href="../index.html">คลัง Prompt</a><a href="../case.html">สถานการณ์ตัวอย่าง</a></nav></div>
+<section class="section">
+<div class="eyebrow">ตัวอย่างผลลัพธ์จากการ์ด Dashboard · ข้อมูลสมมติ</div>
+<h1 style="margin:.2em 0">Dashboard ยอดขาย Glucoxa</h1>
+<p class="note">หน้านี้ประมวลผลในเบราว์เซอร์เท่านั้น ข้อมูลเริ่มต้นเป็นข้อมูลสมมติจากหน้าสถานการณ์ตัวอย่าง เลือกไฟล์ CSV ที่มีคอลัมน์ month, region, channel, units_box, sales_thb, target_thb เพื่อแทนที่ได้</p>
+<div class="bar">
+ <label>ภูมิภาค<select id="fRegion"></select></label>
+ <label>ช่องทาง<select id="fChannel"></select></label>
+ <label>ไฟล์ CSV ใหม่<input type="file" id="file" accept=".csv"></label>
+</div>
+<div class="kpis" id="kpis"></div>
+<div class="charts">
+ <div class="chart"><h3>ยอดขายเทียบเป้ารายเดือน</h3><canvas id="c1"></canvas></div>
+ <div class="chart"><h3>% ทำได้ตามเป้า รายภูมิภาค</h3><canvas id="c2"></canvas></div>
+ <div class="chart"><h3>สัดส่วนยอดขายตามช่องทาง</h3><canvas id="c3"></canvas></div>
+ <div class="chart"><h3>ข้อสังเกตอัตโนมัติ</h3><ul class="flags" id="flags"></ul><p class="note">กฎ: เทียบยอดเฉลี่ย 3 เดือนล่าสุดกับ 6 เดือนแรกของแต่ละภูมิภาคและช่องทาง แล้วแสดงกลุ่มที่ต่างจากการเติบโตของภาพรวมเกิน 20 จุด เป็นสมมติฐานให้ทีมพื้นที่ยืนยัน</p></div>
+</div>
+<div class="chart" style="margin-top:12px"><h3>การจัดการคุณภาพข้อมูล</h3><ul id="clean"></ul></div>
+<p class="note" style="margin-top:12px">ข้อมูลสมมติเพื่อการฝึก · ดร.ภก.วิรุณ เวชศิริ</p>
+</section>
+</div>
+<script src="../assets/casedata.js?v=2030"></script>
+<script>
+const ALIAS={'กทม.':'กรุงเทพฯ และปริมณฑล','กรุงเทพฯ':'กรุงเทพฯ และปริมณฑล'};
+const fmt=n=>n.toLocaleString('th-TH',{maximumFractionDigits:0});
+let rows=[],log=[],charts=[];
+function parseCSV(t){const L=t.replace(/^﻿/,'').trim().split(/\r?\n/);const h=L.shift().split(',').map(x=>x.trim());return L.map(l=>{const c=l.split(',');const o={};h.forEach((k,i)=>o[k]=(c[i]||'').trim());return o})}
+function load(t){log=[];const raw=parseCSV(t);const need=['month','region','channel','units_box','sales_thb','target_thb'];
+ const miss=need.filter(k=>!(k in (raw[0]||{})));if(miss.length){alert('ไฟล์ขาดคอลัมน์: '+miss.join(', '));return}
+ const seen=new Set();let dup=0,alias=0,blank=0;rows=[];
+ raw.forEach(r=>{const key=JSON.stringify(r);if(seen.has(key)){dup++;return}seen.add(key);
+  if(ALIAS[r.region]){r.region=ALIAS[r.region];alias++}
+  if(r.sales_thb===''){blank++;r.sales=null}else r.sales=+r.sales_thb;
+  r.units=+r.units_box;r.target=+r.target_thb;rows.push(r)});
+ log.push(`อ่านข้อมูล ${raw.length} แถว ใช้ได้ ${rows.length} แถว`);
+ log.push(`ตัดแถวซ้ำ ${dup} แถว`);log.push(`ปรับชื่อภูมิภาคให้ตรงกัน ${alias} แถว`);
+ const bm=[...new Set(rows.filter(r=>r.sales===null).map(r=>r.month+' '+r.region+' '+r.channel))];log.push(`ยอดขายว่าง ${blank} แถว (ไม่นำมาคำนวณยอดขาย และไม่เดาเติม)`+(bm.length?' · ยอดรวมของ '+bm.join(', ')+' จึงต่ำกว่าความจริง':''));
+ const opt=(id,vals)=>{$('#'+id).innerHTML='<option value="">ทั้งหมด</option>'+vals.map(v=>'<option>'+v+'</option>').join('')};
+ opt('fRegion',[...new Set(rows.map(r=>r.region))]);opt('fChannel',[...new Set(rows.map(r=>r.channel))]);draw()}
+const $=s=>document.querySelector(s);
+function draw(){const R=$('#fRegion').value,C=$('#fChannel').value;
+ const D=rows.filter(r=>(!R||r.region===R)&&(!C||r.channel===C));
+ const months=[...new Set(rows.map(r=>r.month))].sort();
+ const sum=(a,f)=>a.reduce((s,r)=>s+(f(r)||0),0);
+ const S=sum(D,r=>r.sales),T=sum(D.filter(r=>r.sales!==null),r=>r.target);
+ const first3=sum(D.filter(r=>months.slice(0,3).includes(r.month)),r=>r.sales),last3=sum(D.filter(r=>months.slice(-3).includes(r.month)),r=>r.sales);
+ $('#kpis').innerHTML=[['ยอดขายรวม (บาท)',fmt(S)],['เป้า (เฉพาะแถวที่มียอด)',fmt(T)],['ทำได้ตามเป้า',(S/T*100).toFixed(1)+'%'],['3 เดือนล่าสุด เทียบ 3 เดือนแรก',((last3/first3-1)*100).toFixed(1)+'%'],['จำนวนกล่อง',fmt(sum(D,r=>r.units))]].map(k=>'<div class="kpi"><span>'+k[0]+'</span><b>'+k[1]+'</b></div>').join('');
+ charts.forEach(c=>c.destroy());charts=[];
+ const css=getComputedStyle(document.documentElement);const teal=css.getPropertyValue('--accent').trim()||'#1f7a6e',honey=css.getPropertyValue('--honey').trim()||'#e0a526',navy=css.getPropertyValue('--navy').trim()||'#1D2D52';
+ charts.push(new Chart($('#c1'),{type:'line',data:{labels:months,datasets:[{label:'ยอดขาย',data:months.map(m=>sum(D.filter(r=>r.month===m),r=>r.sales)),borderColor:teal,backgroundColor:teal},{label:'เป้า',data:months.map(m=>sum(D.filter(r=>r.month===m),r=>r.target)),borderColor:honey,borderDash:[6,4],backgroundColor:honey}]}}));
+ const regs=[...new Set(D.map(r=>r.region))];
+ charts.push(new Chart($('#c2'),{type:'bar',data:{labels:regs,datasets:[{label:'% ตามเป้า',data:regs.map(g=>{const d=D.filter(r=>r.region===g&&r.sales!==null);return +(sum(d,r=>r.sales)/sum(d,r=>r.target)*100).toFixed(1)}),backgroundColor:navy}]},options:{plugins:{legend:{display:false}}}}));
+ const chs=[...new Set(D.map(r=>r.channel))];
+ charts.push(new Chart($('#c3'),{type:'doughnut',options:{aspectRatio:1.8},data:{labels:chs,datasets:[{data:chs.map(c=>sum(D.filter(r=>r.channel===c),r=>r.sales)),backgroundColor:[teal,honey,navy]}]}}));
+ const fl=[];const segs=[];const avgOf=(d,ms)=>{const x=d.filter(r=>ms.includes(r.month)&&r.sales!==null);return x.length?sum(x,r=>r.sales)/x.length:0};
+ const allv=rows.filter(r=>r.sales!==null);const totA=avgOf(allv,months.slice(0,6)),totB=avgOf(allv,months.slice(-3));const base=(totB/totA-1)*100;
+ [...new Set(rows.map(r=>r.region))].forEach(g=>[...new Set(rows.map(r=>r.channel))].forEach(c=>{const d=rows.filter(r=>r.region===g&&r.channel===c);const a=avgOf(d,months.slice(0,6)),b=avgOf(d,months.slice(-3));if(!a)return;const ch=(b/a-1)*100;if(Math.abs(ch-base)>20)fl.push([g+' · '+c,ch,ch-base])}));
+ $('#flags').innerHTML=fl.length?fl.sort((x,y)=>Math.abs(y[2])-Math.abs(x[2])).slice(0,3).map(f=>'<li><b>'+f[0]+'</b> '+(f[1]>0?'เพิ่มขึ้น ':'ลดลง ')+Math.abs(f[1]).toFixed(0)+'% (ภาพรวมทั้งประเทศ '+(base>0?'+':'')+base.toFixed(0)+'%)</li>').join(''):'<li>ไม่พบการเปลี่ยนแปลงเกินเกณฑ์</li>';
+ $('#clean').innerHTML=log.map(l=>'<li>'+l+'</li>').join('')}
+$('#fRegion').onchange=draw;$('#fChannel').onchange=draw;
+$('#file').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>load(r.result);r.readAsText(f,'utf-8')};
+load(CASE.sales.x);
+</script>
+</body>
+</html>
