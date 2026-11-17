@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>จาก JD สู่ Agentic AI · AI for Marketing Pharmacists</title>
+<meta name="description" content="แตก Job Description ของ Product Manager เป็น workflow และ task แทนที่ task ด้วย prompt ออกแบบ workflow ใหม่ และต่อยอดเป็นระบบ Agentic AI">
+<meta name="author" content="ดร.ภก.วิรุณ เวชศิริ">
+<meta name="theme-color" content="#1D2D52">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=0030">
+<script>try{var t=localStorage.getItem('mkp-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<style>
+.flow6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.flow6 div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;position:relative}
+.flow6 b{display:block;font-family:var(--display);color:var(--navy);font-size:1rem}
+.flow6 span{font-size:.8rem;color:var(--muted)}
+.flow6 div:not(:last-child)::after{content:'→';position:absolute;right:-9px;top:40%;color:var(--honey);font-weight:700}
+@media(max-width:820px){.flow6{grid-template-columns:repeat(2,1fr)}.flow6 div::after{display:none}}
+.jd dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 14px;margin:0 0 10px}.jd dt{color:var(--muted);font-size:.85rem}.jd dd{margin:0}
+.jd ol{margin:6px 0 0;padding-left:20px}.jd li{margin-bottom:6px}
+.wfb{font-family:var(--display);font-size:.72rem;border-radius:99px;padding:2px 9px;margin-left:6px;border:1px solid var(--line);background:var(--soft);color:var(--accent);cursor:pointer}
+.wtabs,.steps{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.wtabs button,.steps button{font-family:var(--display);font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.wtabs button.on{background:var(--navy);color:var(--navy-ink);border-color:var(--navy)}
+.steps button.on{background:var(--honey);color:#2a1d05;border-color:var(--honey)}
+.chain{display:flex;flex-direction:column;gap:0}
+.tk{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.tk .n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;background:var(--soft);color:var(--accent)}
+.tk .h{font-family:var(--mono);font-size:.8rem;color:var(--muted);white-space:nowrap}
+.tk p{margin:4px 0 0;font-size:.85rem;color:var(--muted)}
+.tk.ai,.tk.agent{border-left:5px solid var(--tag-ai-ink)}.tk.as{border-left:5px solid var(--tag-dr-ink)}.tk.hu{border-left:5px solid var(--tag-hu-ink)}.tk.human{border-left:5px solid var(--tag-hu-ink);background:var(--honey-soft)}
+.tk .tag,.legend .tag{white-space:nowrap;display:inline-block}
+.ar{text-align:center;color:var(--honey);font-weight:700;line-height:1;padding:3px 0}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:820px){.cmp{grid-template-columns:1fr}}
+.cmp h3{margin:0 0 8px;font-size:1rem}
+.stat{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.stat div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px}.stat b{display:block;font-family:var(--display);font-size:1.5rem;color:var(--navy)}.stat span{font-size:.8rem;color:var(--muted)}
+.spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}@media(max-width:820px){.spec{grid-template-columns:1fr}}
+.spec .box h4{margin:0 0 6px;font-family:var(--display);color:var(--navy)}.spec ul{margin:0;padding-left:18px}.spec li{margin-bottom:4px}
+.note{font-size:.84rem;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.brow{display:grid;grid-template-columns:1fr 90px 170px 36px;gap:8px;margin-bottom:8px}@media(max-width:640px){.brow{grid-template-columns:1fr 70px;}.brow select{grid-column:1/2}}
+.mini{border:1px solid var(--line);background:var(--card);border-radius:10px;cursor:pointer;color:var(--ink)}
+a.card{font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top">
+  <nav class="nav" aria-label="หน้า"><a href="index.html">คลัง Prompt</a><a href="jd.html" class="on">JD → Agent</a><a href="case.html">สถานการณ์ตัวอย่าง</a></nav>
+  <button class="tbtn" id="theme" type="button" aria-label="สลับโหมดสี">◐ ตามเครื่อง</button>
+</div>
+<header class="hero">
+  <div class="txt">
+    <div class="eyebrow">WORKFLOW REDESIGN</div>
+    <h1>จาก JD สู่ Agentic AI</h1>
+    <p>แตกหน้าที่ของ Product Manager เป็น workflow แตก workflow เป็น task ลองแทน task ด้วย prompt แล้วจะเห็นว่าหลายขั้นรวมกันได้ workflow สั้นลง และต่อยอดเป็น agent ที่ทำงานต่อเนื่องจนเสร็จ โดยคนยังคุมจุดตัดสินใจ</p>
+    <div class="by">ดร.ภก.วิรุณ เวชศิริ</div>
+  </div>
+  <img src="assets/mascot.webp" alt="อ.หมี มาสคอตของผู้สอน" width="176" height="166">
+</header>
+
+<section class="section">
+  <h2>แนวคิด 6 ขั้น</h2>
+  <div class="flow6">
+    <div><b>1 · JD</b><span>หน้าที่ความรับผิดชอบ</span></div>
+    <div><b>2 · Workflow</b><span>งานหนึ่งงานตั้งแต่ต้นจนจบ</span></div>
+    <div><b>3 · Task</b><span>ขั้นย่อยที่ต่อกัน</span></div>
+    <div><b>4 · Prompt</b><span>task ไหนให้ AI ทำได้</span></div>
+    <div><b>5 · Redesign</b><span>รวมขั้น ตัดขั้น วางจุดตรวจ</span></div>
+    <div><b>6 · Agent</b><span>ให้ AI ทำต่อกันจนเสร็จ</span></div>
+  </div>
+  <p class="note" style="margin-top:10px">ตัวอย่างใช้สถานการณ์สมมติของยา Glucoxa ชื่อบริษัทและตัวเลขชั่วโมงทั้งหมดเป็นค่าสมมติเพื่ออธิบายแนวคิด</p>
+</section>
+
+<section class="section">
+  <h2>ขั้นที่ 1 · JD ของ Product Manager</h2>
+  <div class="box jd" id="jd"></div>
+</section>
+
+<section class="section" id="wfsec">
+  <h2>ขั้นที่ 2–6 · แตก workflow ทีละขั้น</h2>
+  <p class="lead">เลือก workflow แล้วกดดูทีละขั้น</p>
+  <div class="wtabs" id="wtabs"></div>
+  <div class="steps" id="steps"></div>
+  <div id="view"></div>
+</section>
+
+<section class="section" id="try">
+  <h2>ลองกับงานของคุณ</h2>
+  <p class="lead">ทางที่ 1 ให้ AI ช่วยแตกงาน ใช้ prompt 3 ขั้นต่อกัน ทางที่ 2 แตกเองในตาราง แล้วให้ระบบสร้าง prompt ออกแบบ agent ให้</p>
+  <details class="uc" open><summary><span class="num">A</span><span><h3>ให้ AI ช่วยแตก JD เป็น workflow, task และ agent</h3><p class="sub">วาง JD ของคุณ (ตัดชื่อบริษัทและข้อมูลภายในออก) แล้วคัดลอก prompt ทีละขั้นไปใช้ในแชตเดียวกัน</p></span></summary>
+  <div class="ucb">
+    <label class="fl" for="myjd">JD ของคุณ</label>
+    <textarea class="in" id="myjd" rows="6"></textarea>
+    <div class="actions" style="margin:8px 0"><button class="copy alt" type="button" id="usejd">ใช้ JD ตัวอย่าง</button></div>
+    <div id="chain"></div>
+  </div></details>
+  <details class="uc" open><summary><span class="num">B</span><span><h3>แตก task เอง แล้วดูว่า workflow สั้นลงแค่ไหน</h3><p class="sub">ใส่ task เรียงตามลำดับ เวลาที่ใช้ และประเภท ระบบจะประมาณเวลาหลัง redesign และสร้าง prompt ออกแบบ agent</p></span></summary>
+  <div class="ucb">
+    <label class="fl" for="bname">ชื่อ workflow</label>
+    <input class="in" id="bname" type="text">
+    <div style="margin-top:10px" id="brows"></div>
+    <div class="actions"><button class="copy alt" type="button" id="badd">+ เพิ่ม task</button><button class="copy alt" type="button" id="bex">ใช้ตัวอย่าง (เปิดตัวข้อบ่งใช้ใหม่)</button></div>
+    <div id="bout" style="margin-top:12px"></div>
+  </div></details>
+</section>
+
+<p class="credit">ดร.ภก.วิรุณ เวชศิริ (อ.หมี) · คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์ · ติดต่อ <a href="mailto:wirun.wetsiri@gmail.com">wirun.wetsiri@gmail.com</a></p>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/common.js?v=0030"></script>
+<script src="assets/jd.js?v=0030"></script>
+<script>
+const NOPII='ห้ามใช้ชื่อแพทย์ ชื่อผู้ป่วย ราคาตามสัญญา หรือแผนที่ยังไม่เปิดเผย';
+let W=store.get('mkp-jd-w','w1'),S=+store.get('mkp-jd-s','0');
+const STEPS=['2–3 · แตก task','4 · แทนด้วย prompt','5 · Redesign','6 · ออกแบบ agent'];
+const hrs=a=>a.reduce((s,x)=>s+x.h,0);
+const fmtH=h=>(Math.round(h*10)/10)+' ชม.';
+
+// JD
+$('#jd').innerHTML='<dl><dt>ตำแหน่ง</dt><dd><b>'+esc(JD.title)+'</b></dd><dt>บริษัท</dt><dd>'+esc(JD.org)+'</dd><dt>สายงาน</dt><dd>'+esc(JD.report)+'</dd><dt>เป้าหมายของงาน</dt><dd>'+esc(JD.purpose)+'</dd><dt>KPI</dt><dd>'+JD.kpi.map(esc).join(' · ')+'</dd></dl>'+
+ '<b>หน้าที่หลัก</b><ol>'+JD.resp.map(r=>'<li>'+esc(r[0])+(r[1]!=='-'?'<button class="wfb" type="button" data-go="'+r[1]+'">Workflow '+r[1].slice(1)+'</button>':'<span class="note"> · ลองแตกเองในส่วน "ลองกับงานของคุณ"</span>')+'</li>').join('')+'</ol>';
+$('#jd').addEventListener('click',e=>{const g=e.target.dataset.go;if(g){W=g;S=0;save();draw();$('#wfsec').scrollIntoView({behavior:'smooth'})}});
+
+function save(){store.set('mkp-jd-w',W);store.set('mkp-jd-s',String(S))}
+function chain(items,fn){return '<div class="chain">'+items.map((x,i)=>fn(x,i)+(i<items.length-1?'<div class="ar">↓</div>':'')).join('')+'</div>'}
+function agentPrompt(w){const a=w.agent;const steps=w.redesign.map((r,i)=>(i+1)+'. '+(r.who==='human'?'[หยุดรอคน] ':'')+r.t+(r.note?' ('+r.note+')':'')).join('\n');
+ return `บทบาท (R): คุณคือ AI agent ผู้ช่วยของ Product Manager ทำงาน workflow "${w.name}" สำหรับ Glucoxa (ยาสมมติ)
+งาน (T): ${a.goal}
+เริ่มทำงานเมื่อ: ${a.trigger}
+ทำตามขั้นตอนนี้ตามลำดับ:
+${steps}
+รูปแบบ (F): ${w.output} และสรุปสถานะทุกครั้งที่จบแต่ละขั้น: ทำอะไร ใช้ข้อมูลอะไร พบปัญหาอะไร ขั้นต่อไปคืออะไร
+เงื่อนไข (C):
+- ใช้เครื่องมือได้เฉพาะ: ${a.tools.join(' · ')}
+${a.check.map(c=>'- '+c).join('\n')}
+- ขั้นที่ขึ้นต้นด้วย [หยุดรอคน] ห้ามทำแทน ให้สรุปสิ่งที่ต้องตัดสินใจแล้วรอคำตอบ
+- ${NOPII}
+- บันทึกทุกการกระทำไว้ให้ตรวจย้อนหลังได้
+---
+ข้อมูลที่ใช้: ${a.data.join(' · ')}
+[แนบหรือเชื่อมข้อมูลจากหน้าสถานการณ์ตัวอย่าง]`}
+
+function draw(){const w=WFS.find(x=>x.id===W);
+ $('#wtabs').innerHTML=WFS.map(x=>'<button type="button" data-w="'+x.id+'" class="'+(x.id===W?'on':'')+'">Workflow '+x.id.slice(1)+' · '+esc(x.name)+'</button>').join('');
+ $('#steps').innerHTML=STEPS.map((s,i)=>'<button type="button" data-s="'+i+'" class="'+(i===S?'on':'')+'">'+s+'</button>').join('');
+ const head='<div class="box" style="margin-bottom:12px"><b>'+esc(w.name)+'</b><div class="note">เริ่มเมื่อ: '+esc(w.trigger)+' · ผลลัพธ์: '+esc(w.output)+'</div></div>';
+ let h='';
+ if(S===0){h=head+'<p class="lead">แตก workflow เป็น task ที่ต่อกัน ถามตัวเองว่า "ก่อนจะทำขั้นนี้ได้ ต้องเสร็จอะไรก่อน" และใส่เวลาที่ใช้จริงต่อรอบ</p>'+
+  chain(w.tasks,(t,i)=>'<div class="tk"><span class="n">'+(i+1)+'</span><div><b>'+esc(t.t)+'</b></div><span class="h">'+fmtH(t.h)+'</span></div>')+
+  '<div class="stat"><div><b>'+w.tasks.length+'</b><span>task</span></div><div><b>'+fmtH(hrs(w.tasks))+'</b><span>ต่อรอบ (สมมติ)</span></div></div>';}
+ else if(S===1){h=head+'<div class="legend">'+Object.values(TYPE).map(t=>'<span class="tag '+t[1]+'">'+t[0]+'</span>').join('')+'</div><p class="lead">ถามทีละ task: ทำซ้ำไหม ขั้นตอนชัดไหม ตรวจผลง่ายไหม พลาดแล้วเสียหายแค่ไหน ข้อมูลพร้อมไหม แล้วกดเปิดการ์ด prompt ที่ใช้แทนได้</p>'+
+  chain(w.tasks,(t,i)=>'<div class="tk '+t.type+'"><span class="n">'+(i+1)+'</span><div><b>'+esc(t.t)+'</b> <span class="tag '+TYPE[t.type][1]+'">'+TYPE[t.type][0]+'</span><p>'+esc(t.why)+'</p>'+(t.card?'<a class="card" href="index.html#'+t.card+'" target="_blank" rel="noopener">เปิดการ์ด prompt →</a>':'')+'</div><span class="h">'+fmtH(t.h)+'</span></div>')+
+  '<div class="stat">'+Object.keys(TYPE).map(k=>'<div><b>'+w.tasks.filter(t=>t.type===k).length+'</b><span>'+TYPE[k][0]+'</span></div>').join('')+'</div>';}
+ else if(S===2){const b=hrs(w.tasks),a=hrs(w.redesign);
+  h=head+'<p class="lead">เมื่อหลาย task ให้ AI ทำได้ ขั้นที่ต่อกันจะรวมเป็นขั้นเดียว คนเหลือเฉพาะจุดที่ต้องตัดสินใจ นี่คือ workflow redesign ไม่ใช่แค่ทำขั้นเดิมให้เร็วขึ้น</p>'+
+  '<div class="stat"><div><b>'+w.tasks.length+' → '+w.redesign.length+'</b><span>ขั้น</span></div><div><b>'+fmtH(b)+' → '+fmtH(a)+'</b><span>เวลาของคนต่อรอบ (สมมติ)</span></div><div><b>'+Math.round((1-a/b)*100)+'%</b><span>เวลาที่ได้คืน</span></div><div><b>'+w.redesign.filter(r=>r.who==='human').length+'</b><span>จุดที่คนต้องตัดสิน</span></div></div>'+
+  '<div class="cmp"><div><h3>ก่อน</h3>'+chain(w.tasks,(t,i)=>'<div class="tk '+t.type+'"><span class="n">'+(i+1)+'</span><div>'+esc(t.t)+'</div><span class="h">'+fmtH(t.h)+'</span></div>')+'</div>'+
+  '<div><h3>หลัง redesign</h3>'+chain(w.redesign,(r,i)=>'<div class="tk '+r.who+'"><span class="n">'+String.fromCharCode(65+i)+'</span><div><b>'+esc(r.t)+'</b> <span class="tag '+(r.who==='agent'?'ai':'hu')+'">'+(r.who==='agent'?'Agent':'คน')+'</span><p>แทนขั้น '+r.from.map(x=>x+1).join(', ')+(r.note?' · '+esc(r.note):'')+'</p></div><span class="h">'+fmtH(r.h)+'</span></div>')+'</div></div>'+
+  '<p class="note">เวลาหลัง redesign คือเวลาของคนในการสั่งงานและตรวจผล ไม่รวมเวลาที่ AI ทำงาน ตัวเลขเป็นค่าสมมติ ทีมควรวัดก่อนและหลังของจริง</p>';}
+ else{const a=w.agent;const p=agentPrompt(w);
+  h=head+'<p class="lead">นำ workflow ที่ redesign แล้วมาเขียนเป็นคำสั่งของ agent: เป้าหมาย จุดเริ่ม เครื่องมือ ข้อมูล จุดหยุดรอคน และตัวชี้วัด</p>'+
+  '<div class="spec"><div class="box"><h4>เป้าหมาย</h4>'+esc(a.goal)+'<h4 style="margin-top:10px">เริ่มทำงานเมื่อ</h4>'+esc(a.trigger)+'</div>'+
+  '<div class="box"><h4>ลำดับการทำงาน</h4>'+chain(w.redesign,(r,i)=>'<div class="tk '+r.who+'" style="padding:6px 10px"><span class="n" style="width:24px;height:24px;font-size:.75rem">'+String.fromCharCode(65+i)+'</span><div style="font-size:.88rem">'+(r.who==='human'?'<b>หยุดรอคน:</b> ':'')+esc(r.t)+'</div><span></span></div>')+'</div>'+
+  '<div class="box"><h4>เครื่องมือ</h4><ul>'+a.tools.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><h4 style="margin-top:10px">ข้อมูล</h4><ul>'+a.data.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>'+
+  '<div class="box"><h4>จุดหยุดและข้อห้าม</h4><ul>'+a.check.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul><h4 style="margin-top:10px">วัดผล</h4><ul>'+a.kpi.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div></div>'+
+  '<h3 style="margin:14px 0 6px;font-size:1rem">คำสั่งของ agent (R-T-F-C)</h3><pre class="pv" tabindex="0">'+esc(p)+'</pre><div class="actions" style="margin-top:8px"><button class="copy" type="button" id="cpa">คัดลอกคำสั่ง agent</button></div>'+
+  '<p class="note">นำไปใช้ได้ 3 แบบ: บันทึกเป็น Skill แล้วเรียกใช้ซ้ำ · ใช้กับ Claude Cowork ที่เข้าถึงโฟลเดอร์งาน · หรือแยกขั้นที่ทำซ้ำตามเวลาไปตั้งเป็น Scheduled actions ใน Gemini เริ่มจากรันทีละขั้นและตรวจทุกขั้นก่อน แล้วค่อยปล่อยให้ทำต่อเนื่อง</p>';}
+ $('#view').innerHTML=h;const c=$('#cpa');if(c)c.onclick=()=>copyText(agentPrompt(w));}
+$('#wtabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b){W=b.dataset.w;save();draw()}});
+$('#steps').addEventListener('click',e=>{const b=e.target.closest('button');if(b){S=+b.dataset.s;save();draw()}});
+
+// A: AI-assisted decomposition
+const SAMPLEJD=JD.title+'\nเป้าหมาย: '+JD.purpose+'\nหน้าที่:\n'+JD.resp.map((r,i)=>(i+1)+'. '+r[0]).join('\n')+'\nKPI: '+JD.kpi.join(', ');
+const myjd=$('#myjd');myjd.value=store.get('mkp-myjd','');
+function chainPrompts(){const jd=myjd.value.trim()||'[วาง JD ของคุณ]';
+ return [
+ ['ขั้นที่ 1 · JD → Workflow',`บทบาท (R): คุณคือที่ปรึกษาด้านการออกแบบกระบวนการทำงานในบริษัทยา
+งาน (T): อ่าน JD ด้านล่าง แล้วแตกเป็น workflow ทั้งหมดที่คนในตำแหน่งนี้ทำจริง
+รูปแบบ (F): ตาราง: workflow | เริ่มเมื่อ | ผลลัพธ์ | ความถี่ | ใช้เวลาต่อรอบโดยประมาณ | หน้าที่ข้อไหนใน JD จากนั้นเลือก 3 workflow ที่ควรปรับก่อน พร้อมเหตุผล
+เงื่อนไข (C): แยก workflow ที่มีจุดเริ่มและผลลัพธ์ชัดเจน ไม่ใช่แค่หัวข้องาน ถ้าไม่แน่ใจเรื่องเวลาให้ใส่ช่วงและบอกว่าเป็นการประมาณ ${NOPII}
+---
+JD:
+${jd}`],
+ ['ขั้นที่ 2 · Workflow → Task และประเมินความเหมาะสม',`บทบาท (R): ที่ปรึกษาคนเดิม
+งาน (T): เลือก workflow ที่ 1 จากขั้นก่อน แตกเป็น task ที่ต่อกันตามลำดับ แล้วประเมินแต่ละ task ว่าเหมาะให้ AI ทำหรือไม่
+รูปแบบ (F): ตาราง: ลำดับ | task | ผู้ทำ | เวลา | ประเมิน 9 เกณฑ์ (ทำซ้ำ · ขั้นตอนชัด · ความซับซ้อน · ความสำคัญเมื่อพลาด · ตรวจผลได้ง่าย · ต้องใช้ข้อมูล · ข้อมูลเข้าเป็นมาตรฐาน · ข้อมูลพอ · ระบบเชื่อมกัน) ให้คะแนน 1–5 | สรุป: AI ทำได้ คนตรวจ / AI ช่วยบางส่วน / คนต้องทำ
+เงื่อนไข (C): task ที่เกี่ยวกับการอนุมัติสื่อ การลงชื่อตามกฎหมาย หรือการตัดสินใจทางธุรกิจ ให้เป็น "คนต้องทำ" เสมอ อธิบายเหตุผลสั้นๆ ทุกแถว`],
+ ['ขั้นที่ 3 · Redesign และออกแบบ agent',`บทบาท (R): คุณคือผู้ออกแบบระบบ Agentic AI สำหรับงานที่มีการกำกับดูแล
+งาน (T): จากตารางขั้นก่อน ออกแบบ workflow ใหม่ โดยรวม task ที่ AI ทำต่อกันได้เป็นขั้นเดียว แล้วเขียนสเปกของ agent
+รูปแบบ (F): (1) workflow ก่อนและหลัง เทียบจำนวนขั้นและเวลาของคน (2) สเปก agent: เป้าหมาย · จุดเริ่ม · ลำดับขั้น (ระบุขั้นที่ต้องหยุดรอคน) · เครื่องมือที่อนุญาต · ข้อมูลที่ใช้ · ข้อห้าม · ตัวชี้วัด (3) คำสั่ง agent แบบ R-T-F-C ที่คัดลอกไปใช้ได้
+เงื่อนไข (C): ห้ามให้ agent ส่งอะไรออกนอกบริษัทเอง ห้ามข้ามจุดตรวจของคน แนะนำให้เริ่มจากรันทีละขั้นก่อนปล่อยให้ทำต่อเนื่อง และบอกความเสี่ยงที่ต้องระวัง`]]}
+function drawChain(){$('#chain').innerHTML=chainPrompts().map((p,i)=>'<h3 style="margin:12px 0 6px;font-size:.95rem">'+p[0]+'</h3><pre class="pv" tabindex="0">'+esc(p[1])+'</pre><div class="actions" style="margin-top:6px"><button class="copy" type="button" data-cp="'+i+'">คัดลอก'+(i?' (ส่งต่อในแชตเดิม)':'')+'</button></div>').join('')}
+myjd.addEventListener('input',()=>{store.set('mkp-myjd',myjd.value);drawChain()});
+$('#usejd').onclick=()=>{myjd.value=SAMPLEJD;store.set('mkp-myjd',SAMPLEJD);drawChain()};
+$('#chain').addEventListener('click',e=>{const i=e.target.dataset.cp;if(i!==undefined)copyText(chainPrompts()[+i][1])});
+drawChain();
+
+// B: manual builder
+const F={ai:.2,as:.5,hu:1};
+let B=[];try{B=JSON.parse(store.get('mkp-b','[]'))}catch(e){B=[]}
+const bname=$('#bname');bname.value=store.get('mkp-bname','');
+const EXB={name:'เปิดตัวข้อบ่งใช้ใหม่ของ Glucoxa',rows:[['สรุปข้อมูล GLX-HEART ให้ทีม',6,'ai'],['วางไทม์ไลน์ย้อนจากวันเปิดตัว',3,'ai'],['ร่างสื่อจากคลัง claim และแปลสื่อบริษัทแม่',8,'ai'],['ตรวจสื่อเบื้องต้นก่อนส่ง MLR',3,'ai'],['MLR ทบทวนและอนุมัติ',6,'hu'],['ขออนุญาตโฆษณา',2,'hu'],['เตรียมเนื้อหาอบรมและบทซ้อมทีมขาย',6,'as'],['วางแผนงานประชุมวิชาการตาม PReMA Code',4,'as'],['ตัดสินใจงบและอนุมัติแผน',2,'hu']]};
+function saveB(){store.set('mkp-b',JSON.stringify(B));store.set('mkp-bname',bname.value)}
+function drawB(){$('#brows').innerHTML=B.map((r,i)=>'<div class="brow"><input class="in" data-i="'+i+'" data-f="0" value="'+esc(r[0])+'" placeholder="task ที่ '+(i+1)+'"><input class="in" type="number" min="0" step="0.5" data-i="'+i+'" data-f="1" value="'+r[1]+'" aria-label="ชั่วโมง"><select data-i="'+i+'" data-f="2">'+Object.keys(TYPE).map(k=>'<option value="'+k+'"'+(r[2]===k?' selected':'')+'>'+TYPE[k][0]+'</option>').join('')+'</select><button class="mini" type="button" data-del="'+i+'" aria-label="ลบ">✕</button></div>').join('');outB()}
+function outB(){const rows=B.filter(r=>r[0].trim());if(!rows.length){$('#bout').innerHTML='<p class="note">ใส่ task อย่างน้อย 1 ข้อ</p>';return}
+ const before=rows.reduce((s,r)=>s+(+r[1]||0),0),after=rows.reduce((s,r)=>s+(+r[1]||0)*F[r[2]],0);
+ const groups=[];rows.forEach(r=>{const ag=r[2]!=='hu';const last=groups[groups.length-1];if(last&&last.ag&&ag)last.items.push(r);else groups.push({ag,items:[r]})});
+ const p=builderPrompt(rows,groups);
+ $('#bout').innerHTML='<div class="stat"><div><b>'+rows.length+' → '+groups.length+'</b><span>ขั้น (รวม task ที่ AI ทำต่อกันได้)</span></div><div><b>'+fmtH(before)+' → '+fmtH(after)+'</b><span>เวลาของคน (ประมาณ)</span></div><div><b>'+(before?Math.round((1-after/before)*100):0)+'%</b><span>เวลาที่ได้คืน</span></div></div>'+
+ chain(groups,(g,i)=>'<div class="tk '+(g.ag?'agent':'human')+'"><span class="n">'+String.fromCharCode(65+i)+'</span><div><b>'+(g.ag?'Agent: ':'คน: ')+'</b>'+g.items.map(r=>esc(r[0])).join(' → ')+'</div><span></span></div>')+
+ '<p class="note">สมมติฐานการประมาณ: งาน "AI ทำได้" เหลือเวลาคนตรวจ 20% · "AI ช่วยบางส่วน" เหลือ 50% · "คนต้องทำ" เท่าเดิม ตัวเลขจริงต้องวัดหลังทดลองใช้</p>'+
+ '<h3 style="margin:12px 0 6px;font-size:.95rem">Prompt ออกแบบ agent จาก workflow นี้</h3><pre class="pv" tabindex="0">'+esc(p)+'</pre><div class="actions" style="margin-top:6px"><button class="copy" type="button" id="bcp">คัดลอก</button></div>';
+ $('#bcp').onclick=()=>copyText(p)}
+function builderPrompt(rows,groups){return `บทบาท (R): คุณคือผู้ออกแบบระบบ Agentic AI สำหรับงานการตลาดยาที่มีการกำกับดูแล ช่วย${G().role}
+งาน (T): ออกแบบ agent สำหรับ workflow "${bname.value.trim()||'[ชื่อ workflow]'}" จากการแตก task ด้านล่าง
+รูปแบบ (F): (1) ตรวจการแตก task ว่าขาดหรือซ้ำตรงไหน (2) workflow หลัง redesign โดยรวม task ที่ AI ทำต่อกันได้ (3) สเปก agent: เป้าหมาย · จุดเริ่ม · ลำดับขั้นพร้อมจุดหยุดรอคน · เครื่องมือ · ข้อมูล · ข้อห้าม · ตัวชี้วัด (4) คำสั่ง agent แบบ R-T-F-C
+เงื่อนไข (C): task ที่ระบุว่า "คนต้องทำหรือตัดสิน" ต้องเป็นจุดหยุดรอคนเสมอ ห้ามให้ agent ส่งสื่อหรือเอกสารออกนอกบริษัทเอง ถ้าเห็นว่าการจัดประเภท task ใดไม่เหมาะ ให้ทักพร้อมเหตุผล ${NOPII}
+---
+task ปัจจุบัน (ลำดับ | task | ชั่วโมงต่อรอบ | ประเภท):
+${rows.map((r,i)=>(i+1)+' | '+r[0]+' | '+r[1]+' | '+TYPE[r[2]][0]).join('\n')}
+แนวรวมขั้นเบื้องต้น: ${groups.map((g,i)=>String.fromCharCode(65+i)+'='+(g.ag?'Agent':'คน')+'('+g.items.length+' task)').join(' · ')}`}
+$('#brows').addEventListener('input',e=>{const i=e.target.dataset.i,f=e.target.dataset.f;if(i===undefined)return;B[+i][+f]=f==='1'?(+e.target.value||0):e.target.value;saveB();outB()});
+$('#brows').addEventListener('click',e=>{const d=e.target.dataset.del;if(d!==undefined){B.splice(+d,1);saveB();drawB()}});
+$('#badd').onclick=()=>{B.push(['',1,'as']);saveB();drawB()};
+$('#bex').onclick=()=>{B=EXB.rows.map(r=>r.slice());bname.value=EXB.name;saveB();drawB()};
+bname.addEventListener('input',()=>{saveB();outB()});
+if(!B.length)B=[['',1,'as'],['',1,'as'],['',1,'hu']];
+initTheme();draw();drawB();
+</script>
+</body>
+</html>

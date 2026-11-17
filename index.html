@@ -10,13 +10,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=2030">
+<link rel="stylesheet" href="assets/style.css?v=0030">
 <script>try{var t=localStorage.getItem('mkp-theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 </head>
 <body>
 <div class="wrap">
 <div class="top">
-  <nav class="nav" aria-label="หน้า"><a href="index.html" class="on">คลัง Prompt</a><a href="case.html">สถานการณ์ตัวอย่าง</a></nav>
+  <nav class="nav" aria-label="หน้า"><a href="index.html" class="on">คลัง Prompt</a><a href="jd.html">JD → Agent</a><a href="case.html">สถานการณ์ตัวอย่าง</a></nav>
   <button class="tbtn" id="theme" type="button" aria-label="สลับโหมดสี">◐ ตามเครื่อง</button>
 </div>
 <header class="hero">
@@ -60,9 +60,9 @@
 <p class="credit">ดร.ภก.วิรุณ เวชศิริ (อ.หมี) · คณะเภสัชศาสตร์ มหาวิทยาลัยธรรมศาสตร์<br>อยากปรึกษาเรื่องการใช้ AI ติดต่อได้ที่ <a href="mailto:wirun.wetsiri@gmail.com">wirun.wetsiri@gmail.com</a><br>เคสและข้อมูลผู้ป่วยทั้งหมดเป็นข้อมูลสมมติเพื่อการเรียน ห้ามใส่ข้อมูลผู้ป่วยจริงลงใน AI</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="assets/common.js?v=2030"></script>
-<script src="assets/cases.js?v=2030"></script>
-<script src="assets/casedata.js?v=2030"></script>
+<script src="assets/common.js?v=0030"></script>
+<script src="assets/cases.js?v=0030"></script>
+<script src="assets/casedata.js?v=0030"></script>
 <script>
 let cat='all';const XAPP={dash:'examples/dashboard.html',thfda:'examples/thfda.html',ctgov:'examples/ctgov.html'};const vals={};
 const TOPIC={id:'topic',label:'ผลิตภัณฑ์หรือกลุ่มยา',type:'text',def:'',full:1,topic:1};
@@ -91,6 +91,7 @@ $('#list').addEventListener('click',e=>{const t=e.target;
  else if(t.dataset.r2){copyText(UC.find(x=>x.id===t.dataset.r2).r2)}
  else if(t.id==='spot-b'){$('#spot-k').hidden=false;$$('#spot-t [data-e]').forEach(s=>s.classList.add('err'));t.disabled=true}});
 initTheme();initSetup(refresh);render();
+if(location.hash){const id=location.hash.slice(1),d=document.querySelector('details.uc[data-id="'+id+'"]');if(d){d.open=true;d.dispatchEvent(new Event('toggle'));setTimeout(()=>d.scrollIntoView({block:'start'}),60)}}
 </script>
 </body>
 </html>
